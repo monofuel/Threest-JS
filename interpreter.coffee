@@ -54,7 +54,7 @@ exports.peek_r = peek_r
 
 run_word = (word) ->
 
-  console.log(word)
+  #console.log(word)
 
   if (bail_out)
     return

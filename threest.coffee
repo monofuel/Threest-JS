@@ -41,6 +41,10 @@ global_dict =
     builtin : true
     function : () ->
       create_word()
+  "ALERT" :
+    builtin : true
+    function : () ->
+      alert(inter.pop())
   "DUP" :
     builtin : true
     function : () ->
