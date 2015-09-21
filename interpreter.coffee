@@ -54,6 +54,8 @@ exports.peek_r = peek_r
 
 run_word = (word) ->
 
+  console.log(word)
+
   if (bail_out)
     return
 
@@ -105,7 +107,7 @@ run_word = (word) ->
       current_word = word.content.then_ptr + 1
     when threest.types.then
       #WE AIN'T DOIN SHIT
-      break
+      return
     when threest.types.word
       #step through the word
       content = word.content

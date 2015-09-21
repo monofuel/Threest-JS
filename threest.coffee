@@ -105,7 +105,7 @@ global_dict =
     function : () ->
       j = inter.pop()
       k = inter.pop()
-      inter.push(k == k)
+      inter.push(k == j)
   "DROP" :
     builtin : true
     function : () ->
@@ -177,6 +177,8 @@ create_word = () ->
         if(list[forward_index] == "ELSE")
           if(if_count == 0)
             crate.content.else_ptr = forward_index - start_index
+            #not really sure why we break
+            #but the C++ version does this
             break
 
       if(forward_index == list.length)
@@ -258,7 +260,7 @@ create_word = () ->
     #bool
     #recursion
     if (list[index] == "RECURSE")
-      crate = new exports.crate(exports.types.word,exports.word)
+      crate = new exports.crate(exports.types.word,word)
       word.function.push(crate)
       index++
       continue

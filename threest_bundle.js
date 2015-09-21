@@ -171,6 +171,7 @@ exports.peek_r = peek_r;
 
 run_word = function(word) {
   var choice, content, current_line, element, index, limit, old_current_word;
+  console.log(word);
   if (bail_out) {
     return;
   }
@@ -630,7 +631,7 @@ global_dict = {
       var j, k;
       j = inter.pop();
       k = inter.pop();
-      return inter.push(k === k);
+      return inter.push(k === j);
     }
   },
   "DROP": {
@@ -653,6 +654,12 @@ global_dict = {
       Object.keys(global_dict).forEach(function(word) {
         return word_list += word + " ";
       });
+      word_list += "IF ";
+      word_list += "ELSE ";
+      word_list += "THEN ";
+      word_list += "DO ";
+      word_list += "LOOP ";
+      word_list += "RECURSE";
       return inter.output.push(word_list);
     }
   },
@@ -782,7 +789,7 @@ create_word = function() {
       continue;
     }
     if (list[index] === "RECURSE") {
-      crate = new exports.crate(exports.types.word, exports.word);
+      crate = new exports.crate(exports.types.word, word);
       word["function"].push(crate);
       index++;
       continue;
