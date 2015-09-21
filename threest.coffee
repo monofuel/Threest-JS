@@ -260,7 +260,8 @@ create_word = () ->
     #bool
     #recursion
     if (list[index] == "RECURSE")
-      crate = new exports.crate(exports.types.word,word)
+      crate = new exports.crate(exports.types.word)
+      crate.content = word
       word.function.push(crate)
       index++
       continue

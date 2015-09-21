@@ -170,7 +170,6 @@ exports.parse_line = (line) ->
 
     current_word++
 
-  console.log(line_list)
   exports.get_line = () ->
     return line_list
 

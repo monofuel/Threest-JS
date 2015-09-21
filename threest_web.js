@@ -3,8 +3,6 @@ var inter;
 
 inter = require('./interpreter');
 
-require('./terminal');
-
 document.addEventListener('DOMContentLoaded', function() {
   var repl, threest;
   threest = new Terminal();

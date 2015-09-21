@@ -1,5 +1,4 @@
 inter = require('./interpreter')
-require('./terminal')
 
 document.addEventListener('DOMContentLoaded', () ->
   threest = new Terminal()
