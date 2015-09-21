@@ -5,7 +5,7 @@ start: all
 	node threest_main.js
 
 web: all
-	browserify interpreter.js -o interpreter_bundle.js
+	browserify threest_web.js -o threest_bundle.js
 
 electron: all web
 	electron .
