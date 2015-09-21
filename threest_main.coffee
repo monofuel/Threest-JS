@@ -16,9 +16,11 @@ init = () ->
 
   handle_input = (line) ->
     inter.parse_line(line)
+    line = ""
     inter.output.forEach((o) ->
-      rl.write(o);
+      line += o + " "
       )
+    console.log(line + "\n")
     rl.prompt(true)
 
   rl.setPrompt('>')

@@ -102,7 +102,7 @@ run_word = (word) ->
           current_word = word.content.else_ptr + 1
 
     when threest.types.else
-      current_word = word_content.then_ptr + 1
+      current_word = word.content.then_ptr + 1
     when threest.types.then
       #WE AIN'T DOIN SHIT
       break
@@ -144,7 +144,11 @@ exports.parse_line = (line) ->
   output = new Array()
   exports.output = output
 
+  if (line == "")
+    return
+
   line_list = line.split(" ")
+
   exports.get_line = () ->
     return line_list
 

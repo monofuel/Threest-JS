@@ -26,15 +26,15 @@ exports.crate = (type,content) ->
   this.type = type
   this.content = content
 
-exports._if =
-  else_ptr : 0
-  then_ptr : 0
+exports._if = () ->
+  this.else_ptr = -1
+  this.then_ptr = -1
 
-exports._else =
-  then_ptr : 0
+exports._else = () ->
+  this.then_ptr = -1
 
-exports._loop =
-  do_ptr : 0
+exports._loop = () ->
+  this.do_ptr = -1
 
 global_dict =
   ":" :
@@ -142,7 +142,7 @@ create_word = () ->
 
   index++
   while (list[index] != ';')
-    
+
     #int
     if (!isNaN(parseInt(list[index])))
       crate = new exports.crate(exports.types.int, parseInt(list[index]))
@@ -151,12 +151,100 @@ create_word = () ->
       continue
 
     #if
+    if (list[index] == "IF")
+      crate = new exports.crate(exports.types.if)
+      crate.content = new exports._if()
+      forward_index = index
+      if_count = 0
+      while forward_index < list.length
+        forward_index++
+        if(list[forward_index] == "IF")
+          if_count++
 
+        if(list[forward_index] == "THEN")
+          if (if_count == 0)
+            crate.content.then_ptr = forward_index - start_index
+            break
+          else
+            if_count--
+
+        if(list[forward_index] == "ELSE")
+          if(if_count == 0)
+            crate.content.else_ptr = forward_index - start_index
+            break
+
+      if(forward_index == list.length)
+        inter.output.push("found IF without matching THEN")
+
+      word.function.push(crate)
+      index++
+      continue
 
     #else
+    if (list[index] == "ELSE")
+      crate = new exports.crate(exports.types.else)
+      crate.content = new exports._else()
+      forward_index = index
+      if_count = 0
+      while (forward_index < list.length)
+        forward_index++
+        if(list[forward_index] == "IF")
+          if_count++
+
+        if(list[forward_index] == "THEN")
+          if (if_count == 0)
+            crate.content.then_ptr = forward_index - start_index
+            break
+          else
+            if_count--
+
+      if(forward_index == list.length)
+        inter.output.push("found ELSE without matching THEN")
+
+      word.function.push(crate)
+      index++
+      continue
+
     #then
+    if (list[index] == "THEN")
+      crate = new exports.crate(exports.types.then)
+
+      word.function.push(crate)
+      index++
+      continue
+
     #do
+    if (list[index] == "DO")
+      crate = new exports.crate(exports.types.do)
+
+      word.function.push(crate)
+      index++
+      continue
+
     #loop
+    if (list[index] == "LOOP")
+      crate = new exports.crate(exports.types.loop)
+      crate.content = new exports._loop()
+
+      reverse_index = index
+      loop_count = 0
+      while (reverse_index > 0)
+        reverse_index--
+        if(list[reverse_index] == "LOOP")
+          loop_count++
+
+        if(list[reverse_index] == "DO")
+          if (loop_count == 0)
+            crate.content.do_ptr = reverse_index - start_index
+          else
+            loop_count--
+
+      if(forward_index == list.length)
+        inter.output.push("found LOOP without matching DO")
+
+      word.function.push(crate)
+      index++
+      continue
     #float
     #array
     #object
