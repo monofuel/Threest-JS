@@ -151,21 +151,32 @@ exports.parse_line = (line) ->
 
   line_list = line.split(" ")
 
+  #trim out comments
+  current_word = 0
+  while current_word < line_list.length
+
+    if (line_list[current_word] == '(')
+      comment_start = current_word
+      while (true)
+        if (line_list[++current_word] >= line_list.length)
+          output.push("unfinished comment: " + line)
+          return
+        if (line_list[current_word].endsWith(')'))
+          list_start = line_list.slice(0,comment_start)
+          list_end = line_list.slice(current_word + 1,line_list.length)
+          line_list = list_start.concat(list_end)
+          curren_word = comment_start
+          break
+
+    current_word++
+
+  console.log(line_list)
   exports.get_line = () ->
     return line_list
 
   current_word = 0
   while current_word < line_list.length
     word = line_list[current_word]
-
-    #skip comments
-    if (word == '(')
-      while (true)
-        if (line_list[++current_word] >= line_list.length)
-          output.push("unfinished comment: " + line)
-          return;
-        if (line_list[current_word].endsWith(')'))
-          break;
 
     #skip whitespace and stuff
     if (word == ' ' || word == '\n')
