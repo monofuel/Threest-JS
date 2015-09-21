@@ -1,7 +1,7 @@
 threest_electron.js
 threest_main.js
 threest.js
-interpreter_bundle.js
+threest_bundle.js
 interpreter.js
 
 util/*.js
