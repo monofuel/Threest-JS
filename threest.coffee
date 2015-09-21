@@ -41,6 +41,10 @@ global_dict =
     builtin : true
     function : () ->
       create_word()
+  "\"" :
+    builtin : true
+    function : () ->
+      create_string()
   "ALERT" :
     builtin : true
     function : () ->
@@ -141,6 +145,25 @@ global_dict =
 
 exports.get_word = (word) ->
   return global_dict[word]
+
+create_string = () ->
+  line_list = inter.get_line()
+  index = inter.get_current_word()
+
+  current_word = index
+  #hunt for ending #
+  while current_word <= line_list.length
+
+      if (++current_word > line_list.length)
+        inter.output.push("unfinished string: " + list.join(" "))
+        return
+      if (line_list[current_word].endsWith('\"'))
+        line = line_list.slice(index + 1,current_word + 1).join(" ")
+        line = line.substring(0, line.length-1);
+        inter.push(line)
+        inter.set_current_word(current_word);
+        break
+
 
 create_word = () ->
   list = inter.get_line()

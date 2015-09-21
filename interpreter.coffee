@@ -158,7 +158,7 @@ exports.parse_line = (line) ->
     if (line_list[current_word] == '(')
       comment_start = current_word
       while (true)
-        if (line_list[++current_word] >= line_list.length)
+        if (++current_word > line_list.length)
           output.push("unfinished comment: " + line)
           return
         if (line_list[current_word].endsWith(')'))
