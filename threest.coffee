@@ -121,6 +121,12 @@ global_dict =
       Object.keys(global_dict).forEach((word) ->
         word_list += word + " "
         )
+      word_list += "IF "
+      word_list += "ELSE "
+      word_list += "THEN "
+      word_list += "DO "
+      word_list += "LOOP "
+      word_list += "RECURSE"
       inter.output.push(word_list)
   "BYE" :
     builtin : true
