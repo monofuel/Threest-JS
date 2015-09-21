@@ -3,12 +3,18 @@ threest = require('./threest')
 stack = new Array()
 return_stack = new Array()
 
+output = new Array()
+
+exports.output = output
+
 return_lines = []
 
 line_list = ""
 current_word = 0
 
 bail_out = false
+exited = false
+exports.exited = exited
 
 create_word = () ->
   current_word++
@@ -21,6 +27,11 @@ pop = () ->
     console.log("STACK UNDERFLOW")
   return stack.pop()
 
+peek = () ->
+  if (stack.length == 0)
+    console.log("STACK UNDERFLOW")
+  return stack[stack.length-1]
+
 push_r = (a) ->
   return_stack.push(a)
 
@@ -29,11 +40,20 @@ pop_r = () ->
     console.log("STACK UNDERFLOW")
   return return_stack.pop()
 
+peek_r = () ->
+  if (return_stack.length == 0)
+    console.log("STACK UNDERFLOW")
+  return return_stack[return_stack.length-1]
+
 exports.push = push
 exports.pop = pop
+exports.peek = peek
+exports.push_r = push_r
+exports.pop_r = pop_r
+exports.peek_r = peek_r
 
 run_word = (word) ->
-  
+
   if (bail_out)
     return
 
@@ -121,6 +141,8 @@ exports.set_current_word = (index) ->
 
 exports.parse_line = (line) ->
   bail_out = false
+  output = new Array()
+  exports.output = output
 
   line_list = line.split(" ")
   exports.get_line = () ->
@@ -134,7 +156,7 @@ exports.parse_line = (line) ->
     if (word == '(')
       while (true)
         if (line_list[++current_word] >= line_list.length)
-          console.log("unfinished comment: " + line)
+          output.push("unfinished comment: " + line)
           return;
         if (line_list[current_word].endsWith(')'))
           break;
@@ -151,8 +173,8 @@ exports.parse_line = (line) ->
       crate.content = threest.get_word(word)
       run_word(crate)
     else
-      console.log("word not found")
+      output.push("word not found")
 
     current_word++
 
-  console.log("OK.")
+  output.push("OK.")

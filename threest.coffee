@@ -41,22 +41,92 @@ global_dict =
     builtin : true
     function : () ->
       create_word()
+  "DUP" :
+    builtin : true
+    function : () ->
+      inter.push(inter.peek())
+  "SWAP" :
+    builtin : true
+    function : () ->
+      j = inter.pop()
+      k = inter.pop()
+      inter.push(j)
+      inter.push(k)
+  ">R" :
+    builtin : true
+    function : () ->
+      inter.push_r(inter.pop())
+  "R>" :
+    builtin : true
+    function : () ->
+      inter.push(inter.pop_r())
+  "I" :
+    builtin : true
+    function : () ->
+      inter.push(inter.peek_r())
+  "CR" :
+    builtin : true
+    function : () ->
+      inter.output.push("\n")
   "+" :
     builtin : true
     function : () ->
       inter.push(inter.pop() + inter.pop())
+  "-" :
+    builtin : true
+    function : () ->
+      j = inter.pop()
+      k = inter.pop()
+      inter.push(k - j)
+  "/" :
+    builtin : true
+    function : () ->
+      j = inter.pop()
+      k = inter.pop()
+      inter.push(k / j)
   "*" :
     builtin : true
     function : () ->
       inter.push(inter.pop() * inter.pop())
+  "<" :
+    builtin : true
+    function : () ->
+      j = inter.pop()
+      k = inter.pop()
+      inter.push(k < j)
+  ">" :
+    builtin : true
+    function : () ->
+      j = inter.pop()
+      k = inter.pop()
+      inter.push(k > j)
+  "=" :
+    builtin : true
+    function : () ->
+      j = inter.pop()
+      k = inter.pop()
+      inter.push(k == k)
+  "DROP" :
+    builtin : true
+    function : () ->
+      inter.pop()
   "." :
     builtin : true
     function : () ->
-      console.log(inter.pop())
+      inter.output.push(inter.pop())
+  "WORDS" :
+    builtin : true
+    function : () ->
+      word_list = ""
+      Object.keys(global_dict).forEach((word) ->
+        word_list += word + " "
+        )
+      inter.output.push(word_list)
   "BYE" :
     builtin : true
     function : () ->
-      console.log("CYA")
+      inter.output.push("CYA")
+      inter.exited = true
       process.exit(0)
 
 exports.get_word = (word) ->
@@ -72,6 +142,7 @@ create_word = () ->
 
   index++
   while (list[index] != ';')
+    
     #int
     if (!isNaN(parseInt(list[index])))
       crate = new exports.crate(exports.types.int, parseInt(list[index]))

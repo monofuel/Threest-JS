@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <script src="terminal.js"></script>
+  <script src="interpreter_bundle.js"></script>
+  <link rel="stylesheet" type="text/css" href="threest.css">
+  <head>
+    <title>Threest</title>
+  </head>
+  <body>
+
+    <div id="termDiv"></div>
+
+    <script>
+    var inter = require('./interpreter');
+
+    var threest = new Terminal();
+    threest.setBackgroundColor("#002b36");
+    threest.setTextColor("#586e75");
+
+    threest.print("Welcome to Threest!");
+
+    var repl = function() {
+      threest.input(">",function(input){
+        inter.parse_line(input);
+        inter.output.forEach(function(o) {
+          threest.print(o);
+        });
+        if (!inter.exited) {
+          repl();
+        }
+      });
+    };
+
+    repl();
+
+    termDiv.appendChild(threest.html);
+
+    </script>
+
+  </body>
+</html>

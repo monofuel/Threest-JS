@@ -16,6 +16,9 @@ init = () ->
 
   handle_input = (line) ->
     inter.parse_line(line)
+    inter.output.forEach((o) ->
+      rl.write(o);
+      )
     rl.prompt(true)
 
   rl.setPrompt('>')

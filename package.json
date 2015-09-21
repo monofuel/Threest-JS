@@ -1,0 +1,5 @@
+{
+  "name"    : "Threest",
+  "version" : "0.1.0",
+  "main"    : "threest_electron.js"
+}
