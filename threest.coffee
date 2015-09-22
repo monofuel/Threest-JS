@@ -136,6 +136,10 @@ global_dict =
       word_list += "LOOP "
       word_list += "RECURSE"
       inter.output.push(word_list)
+  "EVAL" :
+    builtin: true
+    function : () ->
+      eval(inter.pop())
   "BYE" :
     builtin : true
     function : () ->
