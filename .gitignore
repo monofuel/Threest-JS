@@ -6,3 +6,4 @@ threest_web.js
 interpreter.js
 
 util/*.js
+node_modules/
